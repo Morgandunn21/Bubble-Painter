@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("References")]
     public BubbleBlower EquippedBlower;
+    public Painting painting;
 
     // cinemachine
     private float _cinemachineTargetPitch;
@@ -150,6 +151,11 @@ public class PlayerController : MonoBehaviour
     public void OnScroll(InputValue value)
     {
         //_scroll = value.Get<int>();
+    }
+
+    public void OnClearCanvas(InputValue value)
+    {
+        if (value.isPressed) painting.ClearCanvas();
     }
 
     private static float ClampAngle(float lfAngle, float lfMin, float lfMax)

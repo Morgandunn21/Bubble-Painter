@@ -18,13 +18,7 @@ public class Painting : MonoBehaviour
         canvasRenderer = GetComponent<Renderer>();
         canvasRenderer.material.mainTexture = canvasTexture;
 
-        // Fill the texture with white (or any base color)
-        Color[] fillColor = new Color[textureWidth * textureHeight];
-        for (int i = 0; i < fillColor.Length; i++)
-            fillColor[i] = defaultCanvasColor;
-
-        canvasTexture.SetPixels(fillColor);
-        canvasTexture.Apply();
+        ClearCanvas();
     }
 
     private void OnCollisionEnter(Collision other)
@@ -48,20 +42,14 @@ public class Painting : MonoBehaviour
         // Convert hitPosition to local texture coordinates
         Vector3 localPos = transform.InverseTransformPoint(hitPosition);
 
-        Debug.Log($"Local Pos: {localPos}");
-
         float u = 1-((localPos.x/(2*maxX)) + 0.5f); // Convert to [0,1] range
         float v = 1-((localPos.z/(2*maxZ)) + 0.5f);
-
-        Debug.Log($"0-1: {new Vector2(u,v)}");
 
         int pixelX = Mathf.FloorToInt(u * canvasTexture.width);
         int pixelY = Mathf.FloorToInt(v * canvasTexture.height);
 
-        Debug.Log($"Pixel Pos: {new Vector2(pixelX, pixelY)}");
-
         // Paint a circle on the texture
-        int brushRadius = Mathf.FloorToInt(bubble.radius*10/transform.localScale.x);//(bubble.radius * canvasTexture.width);
+        int brushRadius = Mathf.FloorToInt((bubble.radius/(transform.localScale.x * 10)) * canvasTexture.width);
 
         for (int y = -brushRadius; y <= brushRadius; y++)
         {
@@ -82,6 +70,17 @@ public class Painting : MonoBehaviour
             }
         }
 
+        canvasTexture.Apply();
+    }
+
+    public void ClearCanvas()
+    {
+        // Fill the texture with white (or any base color)
+        Color[] fillColor = new Color[textureWidth * textureHeight];
+        for (int i = 0; i < fillColor.Length; i++)
+            fillColor[i] = defaultCanvasColor;
+
+        canvasTexture.SetPixels(fillColor);
         canvasTexture.Apply();
     }
 }
