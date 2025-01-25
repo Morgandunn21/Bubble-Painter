@@ -52,7 +52,6 @@ public class BubbleBlower : MonoBehaviour
 
     public void SetBlowingbubbles(bool blowingbubbles)
     {
-        Debug.Log($"Blowing: {blowingbubbles}");
         this.spawningBubbles = blowingbubbles;
     }
 }

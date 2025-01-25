@@ -57,6 +57,22 @@ public class PlayerController : MonoBehaviour
         _controller = GetComponent<CharacterController>();
     }
 
+    private void Start()
+    {
+        SubscribeInputEvents();
+    }
+
+    private void SubscribeInputEvents()
+    {
+        InputHandler ih = InputHandler.Instance;
+
+        ih.OnMoveInput.AddListener(OnMove);
+        ih.OnLookInput.AddListener(OnLook);
+        ih.OnFireInput.AddListener(OnFire);
+        ih.OnScrollInput.AddListener(OnScroll);
+        ih.OnSprintInput.AddListener(OnSprint);
+    }
+
     private void Update()
     {
         Move();
@@ -151,11 +167,6 @@ public class PlayerController : MonoBehaviour
     public void OnScroll(InputValue value)
     {
         //_scroll = value.Get<int>();
-    }
-
-    public void OnClearCanvas(InputValue value)
-    {
-        if (value.isPressed) painting.ClearCanvas();
     }
 
     private static float ClampAngle(float lfAngle, float lfMin, float lfMax)

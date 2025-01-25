@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16baccd348976d94b88cb5b9b80b065b, type: 3}
+  m_Name: TestData
+  m_EditorClassIdentifier: 
+  GoalTexture: {fileID: 2800000, guid: e0c2f24fe43cc1549aaca31c8eba1259, type: 3}
+  ScoreThresholds:
+  - 0.5
+  - 0.7
+  - 0.9

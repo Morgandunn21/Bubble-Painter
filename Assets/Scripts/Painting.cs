@@ -1,5 +1,6 @@
 using System.Drawing;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Color = UnityEngine.Color;
 
 public class Painting : MonoBehaviour
@@ -17,6 +18,8 @@ public class Painting : MonoBehaviour
         canvasTexture.filterMode = FilterMode.Point; // Prevent blurring
         canvasRenderer = GetComponent<Renderer>();
         canvasRenderer.material.mainTexture = canvasTexture;
+
+        InputHandler.Instance.OnClearCanvasInput.AddListener(OnClearCanvas);
 
         ClearCanvas();
     }
@@ -36,14 +39,13 @@ public class Painting : MonoBehaviour
 
     public void PaintBubble(Vector3 hitPosition, Bubble bubble)
     {
-        float maxX = 10 * transform.localScale.x;
-        float maxZ = 10 * transform.localScale.z;
-
         // Convert hitPosition to local texture coordinates
         Vector3 localPos = transform.InverseTransformPoint(hitPosition);
 
-        float u = 1-((localPos.x/(2*maxX)) + 0.5f); // Convert to [0,1] range
-        float v = 1-((localPos.z/(2*maxZ)) + 0.5f);
+        Debug.Log(localPos);
+
+        float u = 1-((localPos.x/10) + 0.5f); // Convert to [0,1] range
+        float v = 1-((localPos.z/10) + 0.5f);
 
         int pixelX = Mathf.FloorToInt(u * canvasTexture.width);
         int pixelY = Mathf.FloorToInt(v * canvasTexture.height);
@@ -82,5 +84,15 @@ public class Painting : MonoBehaviour
 
         canvasTexture.SetPixels(fillColor);
         canvasTexture.Apply();
+    }
+
+    public void OnClearCanvas(InputValue value)
+    {
+        if (value.isPressed) ClearCanvas();
+    }
+
+    public Texture2D GetPainting()
+    {
+        return canvasTexture;
     }
 }
